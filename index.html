@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+    <title>Simple Picture Display</title>
+  </head>
+  <body class="draggable overflow-y-hidden overflow-x-hidden h-auto">
+    <div class="w-full h-full mx-auto flex">
+        <div id="uploadForm">
+            <label for="imageUpload" style="cursor: pointer;">Select the image you want to frame</label>
+            <input id="imageUpload" type="file" accept="image/" class="hidden">
+        </div>
+
+        <img id="imageDisplay" class="max-h-full max-w-full h-auto w-auto hidden bg-cover object-cover justify-center align-center">
+    </div>
+    <style>
+      .draggable {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-app-region: drag;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./renderer.js"></script>
+  </body>
+</html>

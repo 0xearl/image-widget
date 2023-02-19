@@ -1,0 +1,15 @@
+{
+  "name": "imageframe",
+  "version": "1.0.0",
+  "description": "just a simple image framer",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron . --trace-warnings"
+  },
+  "author": "Earl Sabalo",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^23.1.0"
+  }
+}
