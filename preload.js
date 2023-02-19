@@ -14,5 +14,8 @@ contextBridge.exposeInMainWorld('api', {
         ipcRenderer.on('hasFileResult', (event, data) => {
             callback(data)
         })
+    },
+    spawnWindow() {
+        ipcRenderer.send('spawnNewWindow')
     }
 })

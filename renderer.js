@@ -7,7 +7,7 @@ window.addEventListener('DOMContentLoaded', () => {
         imageDisplay.src = file;
     })
 
-    const fileUpload = document.getElementById('imageUpload')
+    const fileUpload = document.getElementById('imageSelect')
     fileUpload.addEventListener('click', (event) => {
         api.openDialog();
     })
@@ -24,5 +24,9 @@ window.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('keypress', (event) => {
     if(event.key == 'c') {
         api.openDialog()
+    }
+
+    if(event.key == 'n') {
+        api.spawnWindow()
     }
 })
