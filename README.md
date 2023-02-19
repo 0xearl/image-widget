@@ -9,6 +9,6 @@ Created with Electronjs and Nodejs
 if you've already selected an image and you want to change it just ``press`` the widget and click ``c`` to change the image.
 
 ## To-do
-    - fix width and height
-    - add more "aesthetics"
-    - add more features (i.e multiple image/mutiple instance)
+- fix width and height
+- add more "aesthetics"
+- add more features (i.e multiple image/mutiple instance)
