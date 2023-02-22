@@ -4,15 +4,23 @@
   "description": "just a simple image framer",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron . --trace-warnings"
+    "test": "electron .",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "author": "Earl Sabalo",
   "license": "ISC",
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.5",
+    "@electron-forge/maker-deb": "^6.0.5",
+    "@electron-forge/maker-rpm": "^6.0.5",
+    "@electron-forge/maker-squirrel": "^6.0.5",
+    "@electron-forge/maker-zip": "^6.0.5",
     "electron": "^23.1.0"
   },
   "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
     "image-size": "^1.0.2"
   }
 }
