@@ -1,40 +1,39 @@
-const { app, BrowserWindow, dialog, ipcMain, screen } = require('electron')
+const { app, BrowserWindow, dialog, ipcMain, globalShortcut } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const sizeOf = require('image-size')
 
-var win = null
+var windows = new Set()
 
 const createWindow = () => {
-    win = new BrowserWindow({
+   let win = new BrowserWindow({
         width: 800,
         height: 600,
         maximizable: false,
         useContentSize: true,
         frame: false,
         transparent: true,
+        focusable: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             devTools: true,
         }
     })
+
     win.loadFile('index.html')
+    // win.openDevTools()
+
+    win.on('close', () => {
+        windows.delete(win)
+        win = null
+    })
+
+    windows.add(win)
+
+    return win
 }
 
-app.whenReady().then(() => {
-    createWindow()
-
-    // app.on('activate', () => {
-    //     if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    // })
-
-})
-
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
-})
-
-ipcMain.on('openFile', () => {
+const openFile = () => {
     dialog.showOpenDialog({properties: ['openFile']}).then(result => {
         if(!result.canceled) {
             fs.readFile(path.join(__dirname, 'content.json'), (err, data) => {
@@ -47,13 +46,41 @@ ipcMain.on('openFile', () => {
                     if (err) throw err;
                 })
             })
-            win.webContents.send('result', result.filePaths[0])
+            BrowserWindow.getFocusedWindow().webContents.send('result', result.filePaths[0])
             sizeOf(result.filePaths[0], (err, dimensions) => {
-                win.setSize(dimensions.width, dimensions.height)
+                BrowserWindow.getFocusedWindow().setSize(dimensions.width, dimensions.height)
             })
             
         }
     })
+}
+
+app.whenReady().then(() => {
+    createWindow()
+
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    })
+
+    /**
+     * Register our shortcuts
+     */
+    globalShortcut.register('CommandOrControl+O', () => {
+        openFile()
+    })
+
+    globalShortcut.register('CommandOrControl+N', () => {
+        createWindow()
+    })
+
+})
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit()
+})
+
+ipcMain.on('openFile', () => {
+    openFile()
 })
 
 ipcMain.on('hasFile', () => {
@@ -61,7 +88,7 @@ ipcMain.on('hasFile', () => {
         if(err) return
         let json = JSON.parse(data)
 
-        if(json.image !== '') win.webContents.send('hasFileResult', json.image)
+        if(json.image !== '') BrowserWindow.getFocusedWindow().webContents.send('hasFileResult', json.image)
     })
 })
 
