@@ -1,4 +1,4 @@
-const { ipcRenderer, ContextBridge, contextBridge } = require('electron')
+const { ipcRenderer, contextBridge } = require('electron')
 
 contextBridge.exposeInMainWorld('api', {
     openDialog() {
@@ -17,5 +17,5 @@ contextBridge.exposeInMainWorld('api', {
     },
     spawnWindow() {
         ipcRenderer.send('spawnNewWindow')
-    }
+    },
 })
