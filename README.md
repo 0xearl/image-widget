@@ -6,12 +6,19 @@ Created with Electronjs and Nodejs
 
 ## Controls
 
-if you've already selected an image and you want to change it just ``press`` the widget and click ``c`` to change the image.
-
-you can add new by ``pressing`` the widget and clicking ``n`` and just change the image.
+### Changing image
+`Ctrl+c` or `Command+o`
+### Adding image display
+`Ctrl+n` or `Command+n`
+### Deleting image display
+`Ctrl+w` or `Command+w`
 
 ## To-do
 - <del>fix width and height</del>
 - add more "aesthetics"
-- add more features (i.e multiple image/mutiple instance)
-- fix multiple instance
+- <del>add more features (i.e multiple image/mutiple instance)</del>
+- <del>fix multiple instance</del>
+- Create a "Window"/"Instance" manager so that the icons don't look bad.
+- always on top windows
+- persistance
+- image collection (basically a set of image you can choose to display all at once)
