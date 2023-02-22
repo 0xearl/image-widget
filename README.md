@@ -7,7 +7,7 @@ Created with Electronjs and Nodejs
 ## Controls
 
 ### Changing image
-`Ctrl+c` or `Command+o`
+`Ctrl+o` or `Command+o`
 ### Adding image display
 `Ctrl+n` or `Command+n`
 ### Deleting image display
