@@ -7,11 +7,15 @@ Created with Electronjs and Nodejs
 ## Controls
 
 ### Changing image
-`Ctrl+o` or `Command+o`
+`Ctrl+O` or `Command+O`
 ### Adding image display
-`Ctrl+n` or `Command+n`
+`Ctrl+N` or `Command+N`
 ### Deleting image display
-`Ctrl+w` or `Command+w`
+`Ctrl+W` or `Command+W`
+### Enable/Disable Always-on-top
+`Ctrl+T` or `Command+T`
+### Lock/Unlock Image Position
+`Ctrl+L` or `Command+L`
 
 ## To-do
 - <del>fix width and height</del>
@@ -19,6 +23,6 @@ Created with Electronjs and Nodejs
 - <del>add more features (i.e multiple image/mutiple instance)</del>
 - <del>fix multiple instance</del>
 - Create a "Window"/"Instance" manager so that the icons don't look bad.
-- always on top windows
+- <del>always on top windows</del>
 - persistance
 - image collection (basically a set of image you can choose to display all at once)
