@@ -7,15 +7,15 @@ Created with Electronjs and Nodejs
 ## Controls
 
 ### Changing image
-`Ctrl+O` or `Command+O`
+`Alt+Ctrl+O` or `Alt+Command+O`
 ### Adding image display
-`Ctrl+N` or `Command+N`
+`Alt+Ctrl+N` or `Alt+Command+N`
 ### Deleting image display
-`Ctrl+W` or `Command+W`
+`Alt+Ctrl+W` or `Alt+Command+W`
 ### Enable/Disable Always-on-top
-`Ctrl+T` or `Command+T`
+`Alt+Ctrl+T` or `Alt+Command+T`
 ### Lock/Unlock Image Position
-`Ctrl+L` or `Command+L`
+`Alt+Ctrl+L` or `Alt+Command+L`
 
 ## To-do
 - <del>fix width and height</del>
