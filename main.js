@@ -73,6 +73,26 @@ app.whenReady().then(() => {
         createWindow()
     })
 
+    globalShortcut.register('CommandOrControl+L', () => {
+        if(BrowserWindow.getFocusedWindow().isMovable()) {
+            BrowserWindow.getFocusedWindow().setMovable(false)
+        } else {
+            BrowserWindow.getFocusedWindow().setMovable(true) 
+        }
+    })
+
+    globalShortcut.register('CommandOrControl+T', () => {
+        if(BrowserWindow.getFocusedWindow().isAlwaysOnTop()) {
+            BrowserWindow.getFocusedWindow().setAlwaysOnTop(false)
+        } else {
+            BrowserWindow.getFocusedWindow().setAlwaysOnTop(true)
+        }
+    })
+
+})
+
+app.on('will-quit', () => {
+    globalShortcut.unregisterAll()
 })
 
 app.on('window-all-closed', () => {
