@@ -65,15 +65,15 @@ app.whenReady().then(() => {
     /**
      * Register our shortcuts
      */
-    globalShortcut.register('CommandOrControl+O', () => {
+    globalShortcut.register('Alt+CommandOrControl+O', () => {
         openFile()
     })
 
-    globalShortcut.register('CommandOrControl+N', () => {
+    globalShortcut.register('Alt+CommandOrControl+N', () => {
         createWindow()
     })
 
-    globalShortcut.register('CommandOrControl+L', () => {
+    globalShortcut.register('Alt+CommandOrControl+L', () => {
         if(BrowserWindow.getFocusedWindow().isMovable()) {
             BrowserWindow.getFocusedWindow().setMovable(false)
         } else {
@@ -81,7 +81,7 @@ app.whenReady().then(() => {
         }
     })
 
-    globalShortcut.register('CommandOrControl+T', () => {
+    globalShortcut.register('Alt+CommandOrControl+T', () => {
         if(BrowserWindow.getFocusedWindow().isAlwaysOnTop()) {
             BrowserWindow.getFocusedWindow().setAlwaysOnTop(false)
         } else {
