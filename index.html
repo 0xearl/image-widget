@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; script-src *; img-src *" /> -->
     <title>Image display widget</title>
+    <link rel="stylesheet" href="./main.css">
   </head>
   <body class="overflow-y-hidden overflow-x-hidden h-auto bg-transparent">
     <div class="w-full h-full flex justify-center content-center">
@@ -20,7 +21,6 @@
         -webkit-app-region: drag;
       }
     </style>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="./renderer.js"></script>
   </body>
 </html>
