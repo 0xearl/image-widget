@@ -1,9 +1,10 @@
-const { app, BrowserWindow, dialog, ipcMain, globalShortcut } = require('electron')
+const { app, BrowserWindow, dialog, ipcMain, globalShortcut, Tray, Menu } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const sizeOf = require('image-size')
 
 var windows = new Set()
+let tray;
 
 const createWindow = () => {
    let win = new BrowserWindow({
@@ -14,6 +15,7 @@ const createWindow = () => {
         frame: false,
         transparent: true,
         focusable: true,
+        icon: './icon.png',
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             devTools: true,
@@ -21,6 +23,7 @@ const createWindow = () => {
     })
 
     win.loadFile('index.html')
+    win.setSkipTaskbar(true);
     // win.openDevTools()
 
     win.on('close', () => {
@@ -55,12 +58,48 @@ const openFile = () => {
     })
 }
 
+const lock = () => {
+    if(BrowserWindow.getFocusedWindow().isMovable()) {
+        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Image position locked', type: 'info'})
+        BrowserWindow.getFocusedWindow().setMovable(false)
+    } else {
+        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Image position unlocked', type: 'info'})
+        BrowserWindow.getFocusedWindow().setMovable(true)
+    }
+}
+
+const alwaysOnTop = () => {
+    if(BrowserWindow.getFocusedWindow().isAlwaysOnTop()) {
+        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Always on top disabled', type: 'info'})
+        BrowserWindow.getFocusedWindow().setAlwaysOnTop(false)
+    } else {
+        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Always on top enabled', type: 'info'})
+        BrowserWindow.getFocusedWindow().setAlwaysOnTop(true)
+    }
+}
+
 app.whenReady().then(() => {
     createWindow()
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
+
+    tray = new Tray('./icon.png')
+
+    const contextmenu = Menu.buildFromTemplate([
+        {
+            label: 'Close', 
+            type: 'normal',
+            click: () => {
+                app.quit();
+            }
+        },
+    ])
+
+    tray.setToolTip('Image Widget')
+    tray.setContextMenu(contextmenu)
+    
 
     /**
      * Register our shortcuts
@@ -74,19 +113,11 @@ app.whenReady().then(() => {
     })
 
     globalShortcut.register('Alt+CommandOrControl+L', () => {
-        if(BrowserWindow.getFocusedWindow().isMovable()) {
-            BrowserWindow.getFocusedWindow().setMovable(false)
-        } else {
-            BrowserWindow.getFocusedWindow().setMovable(true) 
-        }
+        lock()
     })
 
     globalShortcut.register('Alt+CommandOrControl+T', () => {
-        if(BrowserWindow.getFocusedWindow().isAlwaysOnTop()) {
-            BrowserWindow.getFocusedWindow().setAlwaysOnTop(false)
-        } else {
-            BrowserWindow.getFocusedWindow().setAlwaysOnTop(true)
-        }
+        alwaysOnTop()
     })
 
 })
