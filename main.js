@@ -15,21 +15,54 @@ const createWindow = () => {
         frame: false,
         transparent: true,
         focusable: true,
-        icon: './icon.png',
+        icon: path.join(__dirname, 'assets/icon.ico'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            devTools: true,
+            devTools: false,
         }
     })
 
     win.loadFile('index.html')
     win.setSkipTaskbar(true);
-    // win.openDevTools()
 
     win.on('close', () => {
         windows.delete(win)
         win = null
     })
+
+    tray = new Tray(path.join(__dirname, 'assets/icon.ico'))
+
+    const contextmenu = Menu.buildFromTemplate([
+        {
+            browserWindow: win,
+            label: 'Close', 
+            type: 'normal',
+            click: (event) => {
+                let trayWindow = event.browserWindow
+                trayWindow.close()
+                tray.destroy()
+            }
+        },
+        {
+            browserWindow: win,
+            label: 'Lock/Unlock',
+            click: (event) => {
+                let trayWindow = event.browserWindow
+                lock(trayWindow)
+            }
+        },
+        {
+            browserWindow: win,
+            label: 'Enable/Disable Always on top',
+            click: (event) => {
+                let trayWindow = event.browserWindow
+                alwaysOnTop(trayWindow)
+            }
+        }
+    ])
+
+    tray.setToolTip('Image Widget')
+    tray.setContextMenu(contextmenu)
 
     windows.add(win)
 
@@ -58,23 +91,43 @@ const openFile = () => {
     })
 }
 
-const lock = () => {
-    if(BrowserWindow.getFocusedWindow().isMovable()) {
-        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Image position locked', type: 'info'})
-        BrowserWindow.getFocusedWindow().setMovable(false)
+const lock = (win) => {
+    if(win) {
+        if(win.isMovable()) {
+            dialog.showMessageBox(win, {message: 'Image position locked', type: 'info'})
+            win.setMovable(false)
+        } else {
+            dialog.showMessageBox(win, {message: 'Image position unlocked', type: 'info'})
+            win.setMovable(true)
+        }
     } else {
-        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Image position unlocked', type: 'info'})
-        BrowserWindow.getFocusedWindow().setMovable(true)
+        if(BrowserWindow.getFocusedWindow().isMovable()) {
+            dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Image position locked', type: 'info'})
+            BrowserWindow.getFocusedWindow().setMovable(false)
+        } else {
+            dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Image position unlocked', type: 'info'})
+            BrowserWindow.getFocusedWindow().setMovable(true)
+        }
     }
 }
 
-const alwaysOnTop = () => {
-    if(BrowserWindow.getFocusedWindow().isAlwaysOnTop()) {
-        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Always on top disabled', type: 'info'})
-        BrowserWindow.getFocusedWindow().setAlwaysOnTop(false)
+const alwaysOnTop = (win) => {
+    if(win) {
+        if(win.isAlwaysOnTop()) {
+            dialog.showMessageBox(win, {message: 'Always on top disabled', type: 'info'})
+            win.setAlwaysOnTop(false)
+        } else {
+            dialog.showMessageBox(win, {message: 'Always on top enabled', type: 'info'})
+            win.setAlwaysOnTop(true)
+        }
     } else {
-        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Always on top enabled', type: 'info'})
-        BrowserWindow.getFocusedWindow().setAlwaysOnTop(true)
+        if(BrowserWindow.getFocusedWindow().isAlwaysOnTop()) {
+            dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Always on top disabled', type: 'info'})
+            BrowserWindow.getFocusedWindow().setAlwaysOnTop(false)
+        } else {
+            dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {message: 'Always on top enabled', type: 'info'})
+            BrowserWindow.getFocusedWindow().setAlwaysOnTop(true)
+        }
     }
 }
 
@@ -84,22 +137,6 @@ app.whenReady().then(() => {
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
-
-    tray = new Tray('./icon.png')
-
-    const contextmenu = Menu.buildFromTemplate([
-        {
-            label: 'Close', 
-            type: 'normal',
-            click: () => {
-                app.quit();
-            }
-        },
-    ])
-
-    tray.setToolTip('Image Widget')
-    tray.setContextMenu(contextmenu)
-    
 
     /**
      * Register our shortcuts
