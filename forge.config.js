@@ -1,10 +1,15 @@
+const path = require('path')
+
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    icon: path.join(__dirname, 'assets/icon')
+  },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
       config: {},
+      icon: path.join(__dirname, 'assets/icon')
     },
     {
       name: '@electron-forge/maker-zip',
